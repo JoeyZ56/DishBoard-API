@@ -1,10 +1,9 @@
 const User = require("../models/userSchema");
-const bcrypt = require("bcrypt");
 
 const createUser = async (req, res) => {
-  const { uid, username, email, password } = req.body;
+  const { uid, username, email } = req.body;
 
-  if (!uid || !username || !email || !password) {
+  if (!uid || !username || !email) {
     return res.status(400).json({ message: "All fields are required!" });
   }
 
@@ -15,30 +14,25 @@ const createUser = async (req, res) => {
       return res.status(400).json({ message: "User already exists!" });
     }
 
-    //Hash the password for security
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     //Create and save new User
     const newUser = new User({
       uid,
       username,
       email,
-      password: hashedPassword,
     });
 
-    const savedUser = await newUser.save();
-
-    //Exclude password from response
-    const { password: _, ...userWithoutPassword } = savedUser.toObject();
+    await newUser.save();
 
     res.status(201).json({
       message: "User has been created successfully!",
-      user: userWithoutPassword,
+      user: newUser,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Failed to create user", error: error.message });
+    res.status(500).json({
+      message: "Failed to create user",
+      error: error.message,
+      stack: error.stack,
+    });
   }
 };
 
@@ -52,19 +46,19 @@ const getUserByUid = async (req, res) => {
       return res.status(404).json({ message: "User not found!" });
     }
 
-    const { password: _, ...userWithoutPassword } = user.toObject();
-
-    res.status(200).json(userWithoutPassword);
+    res.json({ user });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Failed to find user", error: error.message });
+    res.status(500).json({
+      message: "Failed to find user",
+      error: error.message,
+      stack: error.stack,
+    });
   }
 };
 
 //Update User
 const updateUser = async (req, res) => {
-  const { uid } = req.params;
+  const { uid } = req.user;
   const updateData = req.body;
   try {
     const updatedUser = await User.findOneAndUpdate({ uid }, updateData, {
@@ -75,22 +69,22 @@ const updateUser = async (req, res) => {
       return res.status(404).json({ message: "Can not find user to update" });
     }
 
-    const { password: _, ...userWithoutPassword } = updatedUser.toObject();
-
     res.status(200).json({
       message: "User updated successfully",
-      user: userWithoutPassword,
+      user: updatedUser,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Cannot update user!", error: error.message });
+    res.status(500).json({
+      message: "Cannot update user!",
+      error: error.message,
+      stack: error.stack,
+    });
   }
 };
 
 //Delete User
 const deleteUser = async (req, res) => {
-  const { uid } = req.params;
+  const { uid } = req.user;
 
   try {
     const deletedUser = await User.findOneAndDelete({ uid });
@@ -101,9 +95,11 @@ const deleteUser = async (req, res) => {
       .status(200)
       .json({ message: "User deleted successfully!", user: deletedUser });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Failed to delete user", error: error.message });
+    res.status(500).json({
+      message: "Failed to delete user",
+      error: error.message,
+      stack: error.stack,
+    });
   }
 };
 
