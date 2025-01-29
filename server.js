@@ -2,24 +2,32 @@ const express = require("express");
 const { auth } = require("./lib/firebaseConfig");
 const cors = require("cors");
 require("dotenv").config();
-const recipeRoute = require("./routes/recipeRoute");
-const connectDB = require("./config/mongodb");
+const recipeRoute = require("./routes/recipeRoutes");
+const userRoutes = require("./routes/userRoutes");
+const connectDB = require("./lib/mongodb");
 
 connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+const allowOrigins = process.env.CLIENT_URL || "http://localhost:5002";
+
+//CORs configuration
+app.use(
+  cors({
+    origin: allowOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
+//Handle preflight requests
+app.options("*", cors());
+
+//Middleware to parse JSON
 app.use(express.json());
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:5002");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  next();
-});
 
 // Middleware to verify Firebase tokens
 const verifyToken = async (req, res, next) => {
@@ -45,6 +53,8 @@ app.get("/protected", verifyToken, (req, res) => {
 });
 
 app.use("/api/recipes", recipeRoute);
+
+app.use("/api/users", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
