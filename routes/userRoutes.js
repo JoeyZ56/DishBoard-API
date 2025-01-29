@@ -4,6 +4,36 @@ const admin = require("firebase-admin");
 const User = require("../models/user");
 const router = express.Router();
 
+//Create a new user in MongoDB
+router.post("/", async (req, res) => {
+  const { uid, username, email } = req.body;
+
+  if (!uid || !username || !email) {
+    return res.status(400).json({ message: "All feilds are required!" });
+  }
+
+  try {
+    // Checks if User exists already
+    let existingUser = await User.findOne({ uid });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists!" });
+    }
+
+    // Save User to mongoDB
+    const newUser = new User({ uid, username, email });
+    await newUser.save();
+
+    res
+      .status(200)
+      .json({ message: "User created successfully", user: newUser });
+  } catch (error) {
+    console.log("Error creating User", error.message);
+    res
+      .status(500)
+      .json({ message: "Failed to create new User", error: error.message });
+  }
+});
+
 //Verify Firebase Tokens on Protected Routes
 const verifyToken = async (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];

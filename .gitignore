@@ -1,0 +1,27 @@
+# Node modules folder (contains installed packages)
+node_modules/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables file (contains secrets like API keys)
+.env
+
+# Local development files (OS-specific files)
+.DS_Store
+Thumbs.db
+
+# Cache folders
+.cache/
+dist/
+build/
+
+# IDE configuration files
+.vscode/
+.idea/
+
+# Dependency lock files (if not needed for versioning)
+package-lock.json
+yarn.lock

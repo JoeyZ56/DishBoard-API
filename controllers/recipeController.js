@@ -1,4 +1,4 @@
-const Recipe = require("../models/recipeSchema");
+const Recipe = require("../models/recipe");
 
 const createRecipe = async (req, res) => {
   try {
@@ -9,7 +9,7 @@ const createRecipe = async (req, res) => {
       name,
       ingredients,
       instructions,
-      imageUrl: `/uploads/${image.filename}`, //Adjust to mage localstorage name
+      imageUrl: `/uploads/${image.filename}`,
     });
 
     await newRecipe.save();
