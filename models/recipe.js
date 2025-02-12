@@ -2,10 +2,22 @@ const mongoose = require("mongoose");
 
 const recipeSchema = new mongoose.Schema(
   {
-    Name: { type: String, required: true },
-    fileUpload: Buffer,
-    ingridients: { type: String, required: true },
+    name: { type: String, required: true },
+    fileUpload: { type: Buffer, required: true },
+    ingredients: { type: String, required: true },
     instructions: { type: String, required: true },
+    category: {
+      type: String,
+      required: true,
+      enum: [
+        "Breakfast",
+        "Lunch",
+        "Dinner",
+        "Dessert",
+        "Appetizer",
+        "Side-Dish",
+      ],
+    },
   },
   {
     timestamps: true,

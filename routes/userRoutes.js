@@ -1,6 +1,6 @@
 const express = require("express");
 const { auth, signInWithEmailAndPassword } = require("../lib/firebaseConfig");
-const admin = require("firebase-admin");
+const { adminAuth } = require("../lib/firebaseConfig");
 const User = require("../models/user");
 const router = express.Router();
 
@@ -88,7 +88,7 @@ router.post("/google-login", async (req, res) => {
   const { idToken } = req.body;
 
   try {
-    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const decodedToken = await adminAuth.verifyIdToken(idToken);
     const { uid, email } = decodedToken;
 
     let user = await User.findOne({ uid });
