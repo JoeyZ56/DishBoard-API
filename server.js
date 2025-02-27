@@ -1,5 +1,5 @@
 const express = require("express");
-const { auth } = require("./lib/firebaseConfig");
+const { auth } = require("./firebase/firebaseConfig");
 const cors = require("cors");
 require("dotenv").config();
 const recipeRoute = require("./routes/recipeRoutes");
@@ -11,17 +11,27 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-const allowOrigins = process.env.CLIENT_URL || "http://localhost:5002";
+const allowOrigins = [
+  process.env.CLIENT_URL || "http://localhost:5002",
+  "http://127.0.0.1:5002",  // Keep both in case your client is using either format
+];
 
-//CORs configuration
+// CORS configuration
 app.use(
   cors({
-    origin: allowOrigins,
+    origin: function (origin, callback) {
+      if (!origin || allowOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
+
 
 //Handle preflight requests
 app.options("*", cors());
