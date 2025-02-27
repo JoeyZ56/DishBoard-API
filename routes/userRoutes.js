@@ -1,6 +1,5 @@
 const express = require("express");
-const { auth, signInWithEmailAndPassword } = require("../lib/firebaseConfig");
-const { adminAuth } = require("../lib/firebaseConfig");
+const { auth, signInWithEmailAndPassword, adminAuth } = require("../firebase/firebaseConfig");
 const User = require("../models/user");
 const router = express.Router();
 
@@ -9,7 +8,7 @@ router.post("/", async (req, res) => {
   const { uid, username, email } = req.body;
 
   if (!uid || !username || !email) {
-    return res.status(400).json({ message: "All feilds are required!" });
+    return res.status(400).json({ message: "All felids are required!" });
   }
 
   try {
@@ -88,24 +87,45 @@ router.post("/google-login", async (req, res) => {
   const { idToken } = req.body;
 
   try {
+    // Verify Google ID token
     const decodedToken = await adminAuth.verifyIdToken(idToken);
-    const { uid, email } = decodedToken;
+    const { uid, email, name, picture } = decodedToken;
 
+    // Check if user already exists
     let user = await User.findOne({ uid });
+
     if (!user) {
-      user = new User({ uid, email });
+      // Generate a username from email
+      let generatedUsername = email.split("@")[0]; // Example: "john.doe"
+
+      // Ensure username is unique
+      let existingUser = await User.findOne({ username: generatedUsername });
+      let counter = 1;
+      while (existingUser) {
+        generatedUsername = `${email.split("@")[0]}${counter}`; // Example: "john.doe1"
+        existingUser = await User.findOne({ username: generatedUsername });
+        counter++;
+      }
+
+      // Create new user
+      user = new User({
+        uid,
+        email,
+        username: generatedUsername, // Ensure username exists
+        profilePicture: picture || "", // Store profile picture if available
+        isEmailVerified: true, // Google sign-in means email is verified
+      });
+
       await user.save();
-      return res
-        .status(201)
-        .json({ message: "Google sign-in successful", user });
+      return res.status(201).json({ message: "Google sign-in successful", user });
     }
+
     res.status(200).json({ message: "User already exists!", user });
   } catch (error) {
     console.error("Error verifying Google sign-in:", error.message);
-    res
-      .status(404)
-      .json({ message: "Invalid Google sign-in", error: error.message });
+    res.status(400).json({ message: "Invalid Google sign-in", error: error.message });
   }
 });
+
 
 module.exports = router;
