@@ -4,6 +4,6 @@ const upload = require("../middlewares/multer");
 
 const router = express.Router();
 
-router.post("/", upload.single("image"), createRecipe);
+router.post("/", upload.single("fileUpload"), createRecipe);
 
 module.exports = router;

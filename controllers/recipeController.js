@@ -3,13 +3,13 @@ const Recipe = require("../models/recipe");
 const createRecipe = async (req, res) => {
   try {
     const { name, ingredients, instructions, category } = req.body;
-    const image = req.file;
+    const fileUpload = req.file;
 
     const newRecipe = new Recipe({
       name,
       ingredients,
       instructions,
-      imageUrl: image.buffer,
+      fileUpload: fileUpload.buffer,
       category,
     });
 
