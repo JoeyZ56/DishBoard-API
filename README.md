@@ -12,13 +12,14 @@ The API is structured in MVC framework separating the Models, Controllers, and R
 
 3.  Install dependencies
 
-        npm i all
+        npm i 
 
 ### Environment
 
 MONGODB_URI="YOUR_MONGO_URI"
 PORT=5003
 CLIENT_URL=http://localhost:5002
+FIREBASE_ADMIN_SDK="your SDK"
 
 ### Database
 
@@ -34,6 +35,11 @@ https://www.npmjs.com/package/multer?activeTab=readme
 Firebase:
 A framework solely used as the authentication of the application
 https://firebase.google.com/docs/auth/
+
+### Issues:
+
+Check Github Project board: <a href= "https://github.com/users/JoeyZ56/projects/10">DishBoard Project</a>
+
 
 ### Future Development
 

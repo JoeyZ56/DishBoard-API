@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5001;
 
 const allowOrigins = [
   process.env.CLIENT_URL || "http://localhost:5002",
-  "http://127.0.0.1:5002",  // Keep both in case your client is using either format
+  "http://127.0.0.1:5002", // Keep both in case your client is using either format
 ];
 
 // CORS configuration
@@ -31,7 +31,6 @@ app.use(
     credentials: true,
   })
 );
-
 
 //Handle preflight requests
 app.options("*", cors());
@@ -62,10 +61,18 @@ app.get("/protected", verifyToken, (req, res) => {
   res.send(`Hello, ${req.user.email}!`);
 });
 
+app.get("/", (req, res) => {
+  res.json({ message: "Backend is running!" });
+});
+app.get("/api/recipes", (req, res) => {
+  res.json({ message: "Recipes endpoint is working!" });
+});
+
+//API route url "/api/___"
 app.use("/api/recipes", recipeRoute);
 
 app.use("/api/users", userRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(PORT, "127.0.0.1", () => {
+  console.log(`Server running on 127.0.0.1:${PORT}`);
 });
