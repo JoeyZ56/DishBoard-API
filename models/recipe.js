@@ -4,7 +4,7 @@ const recipeSchema = new mongoose.Schema(
   {
     recipeName: { type: String, required: true },
 
-    category: {
+    courseType: {
       type: String,
       required: true,
       enum: [
