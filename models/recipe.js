@@ -50,7 +50,7 @@ const recipeSchema = new mongoose.Schema(
 
     tags: [{ type: String, default: [] }], // vegetarian/gluten free
 
-    createdBy: { type: String, ref: "User", required: true }, // Link to user model
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Link to user model
   },
 
   {
