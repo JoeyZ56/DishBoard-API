@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 
 const recipeSchema = new mongoose.Schema(
   {
+    // rid stands for recipe id, similar to uid in the user model
+    rid: { type: String, required: true, unique: true },
+
     recipeName: { type: String, required: true },
 
     courseType: {
@@ -47,7 +50,7 @@ const recipeSchema = new mongoose.Schema(
 
     tags: [{ type: String, default: [] }], // vegetarian/gluten free
 
-    createdBy: { type: String, ref: "User", required: true }, // Link to user model
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Link to user model
   },
 
   {
