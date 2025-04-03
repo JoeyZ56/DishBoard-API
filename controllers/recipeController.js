@@ -147,6 +147,24 @@ const getRecipeByTags = async (req, res) => {
   }
 };
 
+const getRecipeById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("Incoming ID:", id);
+
+    const recipe = await Recipe.findById(id);
+
+    if (!recipe) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+
+    res.status(200).json(recipe);
+  } catch (error) {
+    console.error("Error fetching recipe by id", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 // search recipes by name
 module.exports = {
   createRecipe,
@@ -155,4 +173,5 @@ module.exports = {
   getRecipesByCuisineType,
   getRecipeByDifficultyLevel,
   getRecipeByTags,
+  getRecipeById,
 };

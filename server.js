@@ -64,9 +64,6 @@ app.get("/protected", verifyToken, (req, res) => {
 app.get("/", (req, res) => {
   res.json({ message: "Backend is running!" });
 });
-app.get("/api/recipes", (req, res) => {
-  res.json({ message: "Recipes endpoint is working!" });
-});
 
 //API route url "/api/___"
 app.use("/api/recipes", recipeRoute);
