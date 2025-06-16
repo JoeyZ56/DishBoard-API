@@ -14,6 +14,7 @@ const recipeSchema = new mongoose.Schema(
         "Dessert",
         "Appetizer",
         "Side-Dish",
+        "Sauces",
       ],
     },
 
@@ -36,7 +37,7 @@ const recipeSchema = new mongoose.Schema(
     ingredientsList: [
       {
         name: { type: String, required: true }, // Ingredient name
-        quantity: { type: Number, required: true }, // Amount
+        quantity: { type: String, required: true }, // Amount
         unit: { type: String, required: true }, // unit (cup, tbps, tsp, grams, etc)
       },
     ],
