@@ -109,7 +109,7 @@ const getRecipesByCuisineType = async (req, res) => {
 const getRecipeByDifficultyLevel = async (req, res) => {
   try {
     const { difficultyLevel } = req.params;
-    const recipes = await Recipe.find({ category: difficultyLevel });
+    const recipes = await Recipe.find({ difficultyLevel }); ////query matches the schema "difficultyLevel"
 
     if (!recipes || recipes.length === 0) {
       return res
@@ -129,7 +129,7 @@ const getRecipeByDifficultyLevel = async (req, res) => {
 const getRecipeByTags = async (req, res) => {
   try {
     const { tags } = req.params;
-    const recipes = await Recipe.find({ category: tags });
+    const recipes = await Recipe.find({ tags: tags }); //query matches the schema "tags"
 
     if (!recipes || recipes.length === 0) {
       return res
