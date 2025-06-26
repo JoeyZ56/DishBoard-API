@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5001;
 
 const allowOrigins = [
   process.env.CLIENT_URL || "http://localhost:5002",
-  "http://127.0.0.1:5002", // Keep both in case your client is using either format
+  "http://127.0.0.1:5002", //For Linux and OS
 ];
 
 // CORS configuration
@@ -70,6 +70,10 @@ app.use("/api/recipes", recipeRoute);
 
 app.use("/api/users", userRoutes);
 
-app.listen(PORT, "127.0.0.1", () => {
-  console.log(`Server running on 127.0.0.1:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
