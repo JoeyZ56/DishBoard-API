@@ -32,7 +32,7 @@ const recipeSchema = new mongoose.Schema(
 
     estimatedTime: { type: Number, required: true }, // In minutes
 
-    servingSize: { type: Number, required: true },
+    servingSize: { type: String, required: true },
 
     ingredientsList: [
       {

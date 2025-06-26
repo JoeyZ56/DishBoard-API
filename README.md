@@ -12,7 +12,7 @@ The API is structured in MVC framework separating the Models, Controllers, and R
 
 3.  Install dependencies
 
-        npm i 
+        npm i
 
 ### Environment
 
@@ -40,9 +40,13 @@ https://firebase.google.com/docs/auth/
 
 Check Github Project board: <a href= "https://github.com/users/JoeyZ56/projects/10">DishBoard Project</a>
 
-
 ### Future Development
 
 1. Backend logic for profiles for users to personalize their own page.
 2. Backend logic for Search by key-terms for recipes
 3. Backend logic for commenting/liking recipes
+
+### Public URLs
+
+- Frontend: https://www.dishboard.space/
+- API: dish-board-api.vercel.app
