@@ -24,7 +24,7 @@ const createRecipe = async (req, res) => {
     // Parse strings back to arrays
     const parsedIngredients = JSON.parse(ingredientsList);
     const parsedInstructions = JSON.parse(instructions);
-    const parsedTags = tags ? json.parse(tags) : [];
+    const parsedTags = tags ? JSON.parse(tags) : [];
 
     const image = req.file;
 
