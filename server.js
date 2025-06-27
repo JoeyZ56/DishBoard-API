@@ -12,8 +12,9 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 const allowOrigins = [
-  process.env.CLIENT_URL || "http://localhost:5002",
-  "http://127.0.0.1:5002", //For Linux and OS
+  ...(process.env.CLIENT_URL ? [process.env.CLIENT_URL] : []), //ensures undefined doesn’t end up in the array if CLIENT_URL is missing
+  "http://localhost:5002", // For OS
+  "http://127.0.0.1:5002", //For Linux
 ];
 
 // CORS configuration
