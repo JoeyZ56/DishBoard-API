@@ -1,5 +1,10 @@
 const express = require("express");
-const { auth, signInWithEmailAndPassword, adminAuth } = require("../firebase/firebaseConfig");
+const {
+  auth,
+  signInWithEmailAndPassword,
+  adminAuth,
+} = require("../firebase/firebaseConfig");
+const { updateUsername } = require("../controllers/userController");
 const User = require("../models/user");
 const router = express.Router();
 
@@ -117,15 +122,21 @@ router.post("/google-login", async (req, res) => {
       });
 
       await user.save();
-      return res.status(201).json({ message: "Google sign-in successful", user });
+      return res
+        .status(201)
+        .json({ message: "Google sign-in successful", user });
     }
 
     res.status(200).json({ message: "User already exists!", user });
   } catch (error) {
     console.error("Error verifying Google sign-in:", error.message);
-    res.status(400).json({ message: "Invalid Google sign-in", error: error.message });
+    res
+      .status(400)
+      .json({ message: "Invalid Google sign-in", error: error.message });
   }
 });
 
+//Update Username
+router.put("/users/:uid", updateUsername);
 
 module.exports = router;

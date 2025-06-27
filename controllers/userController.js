@@ -82,6 +82,30 @@ const updateUser = async (req, res) => {
   }
 };
 
+//Update Username
+const updateUsername = async (req, res) => {
+  const { uid } = req.params;
+  const { username } = req.body;
+
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { uid },
+      { username },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "Username updated", user: updatedUser });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error updating username", error: error.message });
+  }
+};
+
 //Delete User
 const deleteUser = async (req, res) => {
   const { uid } = req.user;
@@ -103,4 +127,10 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { createUser, getUserByUid, updateUser, deleteUser };
+module.exports = {
+  createUser,
+  getUserByUid,
+  updateUser,
+  updateUsername,
+  deleteUser,
+};
