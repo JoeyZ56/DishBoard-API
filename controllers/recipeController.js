@@ -22,7 +22,7 @@ const createRecipe = async (req, res) => {
       createdBy, // this is the Firebase UID (string)
     } = req.body;
 
-    // Looks up the user by Firebase UID
+    // Look up the user by Firebase UID
     const user = await User.findOne({ uid: createdBy });
     if (!user) {
       return res.status(404).json({ message: "User not found!" });
