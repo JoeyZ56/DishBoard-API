@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 
 const recipeSchema = new mongoose.Schema(
   {
+    // rid stands for recipe id, similar to uid in the user model
+    rid: { type: String, required: true, unique: true },
+
     recipeName: { type: String, required: true },
 
     courseType: {
