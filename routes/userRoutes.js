@@ -137,6 +137,6 @@ router.post("/google-login", async (req, res) => {
 });
 
 //Update Username
-router.put("/users/:uid", updateUsername);
+router.put("/:uid", updateUsername);
 
 module.exports = router;
