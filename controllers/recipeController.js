@@ -1,8 +1,9 @@
 const Recipe = require("../models/recipe");
+const User = require("../models/user");
 
 const createRecipe = async (req, res) => {
   try {
-    //debugging
+    // Debugging image upload
     console.log("Received Files:", req.file);
     if (!req.file) {
       return res.status(400).json({ error: "Image file is missing!" });
@@ -18,8 +19,14 @@ const createRecipe = async (req, res) => {
       ingredientsList,
       instructions,
       tags,
-      createdBy,
+      createdBy, // this is the Firebase UID (string)
     } = req.body;
+
+    // Looks up the user by Firebase UID
+    const user = await User.findOne({ uid: createdBy });
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
 
     // Parse strings back to arrays
     const parsedIngredients = JSON.parse(ingredientsList);
@@ -28,6 +35,7 @@ const createRecipe = async (req, res) => {
 
     const image = req.file;
 
+    // Use user's Mongo `_id` as createdBy
     const newRecipe = new Recipe({
       recipeName,
       courseType,
@@ -39,7 +47,7 @@ const createRecipe = async (req, res) => {
       instructions: parsedInstructions,
       image: image.buffer.toString("base64"),
       tags: parsedTags,
-      createdBy,
+      createdBy: user._id, // use ObjectId
     });
 
     await newRecipe.save();
