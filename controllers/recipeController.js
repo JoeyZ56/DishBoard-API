@@ -56,7 +56,9 @@ const createRecipe = async (req, res) => {
 //GET all recipes
 const getAllRecipes = async (req, res) => {
   try {
-    const recipes = await Recipe.find();
+    const recipes = await Recipe.find()
+      .sort({ createdAt: -1 }) //Sort by newest first
+      .populate("createdBy", "username");
     res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json({ message: "Error fetching recipes", error });
