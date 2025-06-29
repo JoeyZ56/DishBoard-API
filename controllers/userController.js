@@ -84,6 +84,10 @@ const updateUser = async (req, res) => {
 
 //Update Username
 const updateUsername = async (req, res) => {
+  console.log("[updateUsername] Endpoint hit √");
+  console.log("params:", req.params);
+  console.log("body:", req.body);
+
   const { uid } = req.params;
   const { username } = req.body;
 
@@ -95,11 +99,14 @@ const updateUsername = async (req, res) => {
     );
 
     if (!updatedUser) {
+      console.log("User not found in UID:", uid);
       return res.status(404).json({ message: "User not found" });
     }
 
+    console.log("Username updated:", updateUser.username);
     res.status(200).json({ message: "Username updated", user: updatedUser });
   } catch (error) {
+    console.error("Error updating username;", error.massage);
     res
       .status(500)
       .json({ message: "Error updating username", error: error.message });
