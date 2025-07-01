@@ -2,6 +2,7 @@ const express = require("express");
 const {
   createRecipe,
   getRecipeById,
+  getUserRecipes,
   getAllRecipes,
   getRecipesByCourseType,
   getRecipesByCuisineType,
@@ -20,6 +21,7 @@ const router = express.Router();
 */
 router.post("/", upload.single("image"), createRecipe);
 router.get("/", getAllRecipes);
+router.get("/user-recipes/:id", getUserRecipes);
 
 router.get("/course/:courseType", getRecipesByCourseType);
 router.get("/cuisine/:cuisineType", getRecipesByCuisineType);
