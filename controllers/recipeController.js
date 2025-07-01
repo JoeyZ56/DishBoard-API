@@ -73,6 +73,26 @@ const getAllRecipes = async (req, res) => {
   }
 };
 
+const getUserRecipes = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findOne({ uid: id });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    const userRecipes = await Recipe.find({ createdBy: user._id });
+    res.status(200).json({ userRecipes });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to get user recipes",
+      error: error.message,
+    });
+  }
+};
+
 //get recipes by course Type
 const getRecipesByCourseType = async (req, res) => {
   try {
@@ -180,6 +200,7 @@ const getRecipeById = async (req, res) => {
 module.exports = {
   createRecipe,
   getAllRecipes,
+  getUserRecipes,
   getRecipesByCourseType,
   getRecipesByCuisineType,
   getRecipeByDifficultyLevel,
