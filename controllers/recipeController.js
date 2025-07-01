@@ -20,7 +20,6 @@ const createRecipe = async (req, res) => {
       instructions,
       tags,
       createdBy, // this is the Firebase UID (string)
-      rid,
     } = req.body;
 
     // Look up the user by Firebase UID
@@ -49,7 +48,6 @@ const createRecipe = async (req, res) => {
       image: image.buffer.toString("base64"),
       tags: parsedTags,
       createdBy: user._id, // use ObjectId
-      rid,
     });
 
     await newRecipe.save();
