@@ -3,6 +3,7 @@ const {
   auth,
   signInWithEmailAndPassword,
   adminAuth,
+  getUserByUid,
 } = require("../firebase/firebaseConfig");
 const { updateUsername } = require("../controllers/userController");
 const User = require("../models/user");
@@ -136,6 +137,8 @@ router.post("/google-login", async (req, res) => {
   }
 });
 
+//get user by id
+router.get("/:uid", getUserByUid);
 //Update Username
 router.put("/:uid", updateUsername);
 
