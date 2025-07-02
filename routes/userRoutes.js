@@ -3,9 +3,11 @@ const {
   auth,
   signInWithEmailAndPassword,
   adminAuth,
-  getUserByUid,
 } = require("../firebase/firebaseConfig");
-const { updateUsername } = require("../controllers/userController");
+const {
+  updateUsername,
+  getUserByUid,
+} = require("../controllers/userController");
 const User = require("../models/user");
 const router = express.Router();
 
