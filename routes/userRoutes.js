@@ -7,6 +7,7 @@ const {
 const {
   updateUsername,
   getUserByUid,
+  updateUser,
 } = require("../controllers/userController");
 const User = require("../models/user");
 const router = express.Router();
@@ -143,5 +144,7 @@ router.post("/google-login", async (req, res) => {
 router.get("/:uid", getUserByUid);
 //Update Username
 router.put("/:uid", updateUsername);
+//Update User
+router.put("/update/:uid", verifyToken, updateUser);
 
 module.exports = router;
