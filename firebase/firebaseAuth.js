@@ -1,4 +1,4 @@
-const admin = require("firebase-admin");
+const { adminAuth } = require("../firebase/firebaseConfig");
 
 const verifyToken = async (req, res, next) => {
   // Accesses the Authorization header from the incoming HTTP request.
@@ -11,7 +11,7 @@ const verifyToken = async (req, res, next) => {
   }
 
   try {
-    const decodedToken = await admin.auth().verifyIdToken(token);
+    const decodedToken = await adminAuth.verifyIdToken(token);
     req.user = decodedToken; // Attach user info to request
     next(); // Continue to the next middleware or route handler
   } catch (error) {
