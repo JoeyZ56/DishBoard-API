@@ -10,6 +10,7 @@ const {
   updateUser,
 } = require("../controllers/userController");
 const User = require("../models/user");
+const upload = require("../middlewares/multer");
 const router = express.Router();
 
 //Create a new user in MongoDB
@@ -145,6 +146,11 @@ router.get("/:uid", getUserByUid);
 //Update Username
 router.put("/:uid", updateUsername);
 //Update User
-router.put("/update/:uid", verifyToken, updateUser);
+router.put(
+  "/update/:uid",
+  verifyToken,
+  upload.single("profilePicture"),
+  updateUser
+);
 
 module.exports = router;
