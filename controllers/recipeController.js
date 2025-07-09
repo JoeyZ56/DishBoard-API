@@ -183,7 +183,7 @@ const getRecipeById = async (req, res) => {
     const { id } = req.params;
     console.log("Incoming ID:", id);
 
-    const recipe = await Recipe.findById(id);
+    const recipe = await Recipe.findById(id).populate("createdBy", "username");
 
     if (!recipe) {
       return res.status(404).json({ message: "Recipe not found" });
