@@ -8,6 +8,7 @@ const {
   getRecipesByCuisineType,
   getRecipeByDifficultyLevel,
   getRecipeByTags,
+  updateRecipe,
 } = require("../controllers/recipeController");
 const upload = require("../middlewares/multer");
 
@@ -29,5 +30,7 @@ router.get("/difficulty/:difficultyLevel", getRecipeByDifficultyLevel);
 router.get("/tags/:tags", getRecipeByTags);
 
 router.get("/:id", getRecipeById);
+
+router.put("/:id", upload.single("image"), updateRecipe);
 
 module.exports = router;

@@ -181,7 +181,6 @@ const getRecipeByTags = async (req, res) => {
 const getRecipeById = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("Incoming ID:", id);
 
     const recipe = await Recipe.findById(id).populate("createdBy", "username");
 
@@ -196,6 +195,27 @@ const getRecipeById = async (req, res) => {
   }
 };
 
+const updateRecipe = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const update = req.body;
+
+    const updateRecipe = await Recipe.findByIdAndUpdate(id, update, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updateRecipe) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+
+    res.status(200).json(updateRecipe);
+  } catch (error) {
+    console.error("Error updating recipe", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 // search recipes by name
 module.exports = {
   createRecipe,
@@ -206,4 +226,5 @@ module.exports = {
   getRecipeByDifficultyLevel,
   getRecipeByTags,
   getRecipeById,
+  updateRecipe,
 };
