@@ -148,8 +148,8 @@ router.put("/:uid", updateUsername);
 //Update User
 router.put(
   "/update/:uid",
-  upload.single("profilePicture"),
   verifyToken,
+  upload.single("profilePicture"),
   updateUser
 );
 

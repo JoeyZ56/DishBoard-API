@@ -61,6 +61,12 @@ const updateUser = async (req, res) => {
   const { uid } = req.user;
   const updateData = req.body;
   try {
+    //If a file was updated, convert it to a base64 and set profilePicture
+    if (req.file) {
+      const imageBuffer = req.file.buffer.toString("base64");
+      updateData.profilePicture = imageBuffer;
+    }
+
     const updatedUser = await User.findOneAndUpdate({ uid }, updateData, {
       new: true, // Return the updated document
       runValidators: true, //Ensures validation is ran for updated fields
