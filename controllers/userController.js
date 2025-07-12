@@ -58,6 +58,8 @@ const getUserByUid = async (req, res) => {
 
 //Update User
 const updateUser = async (req, res) => {
+  console.log("Authorization Header:", req.headers.authorization);
+
   const { uid } = req.user;
   const updateData = req.body;
   try {
@@ -90,9 +92,9 @@ const updateUser = async (req, res) => {
 
 //Update Username
 const updateUsername = async (req, res) => {
-  console.log("[updateUsername] Endpoint hit √");
-  console.log("params:", req.params);
-  console.log("body:", req.body);
+  // console.log("[updateUsername] Endpoint hit √");
+  // console.log("params:", req.params);
+  // console.log("body:", req.body);
 
   const { uid } = req.params;
   const { username } = req.body;
