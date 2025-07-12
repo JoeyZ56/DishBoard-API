@@ -1,5 +1,5 @@
 const express = require("express");
-const { auth } = require("./firebase/firebaseConfig");
+const verifyToken = require("./firebase/firebaseAuth");
 const cors = require("cors");
 require("dotenv").config();
 const recipeRoute = require("./routes/recipeRoutes");
@@ -38,24 +38,6 @@ app.options("*", cors());
 
 //Middleware to parse JSON
 app.use(express.json());
-
-// Middleware to verify Firebase tokens
-const verifyToken = async (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
-
-  if (!token) {
-    return res.status(401).json({ message: "No token provided" });
-  }
-
-  try {
-    // Verify Firebase token
-    const decodedToken = await auth.verifyIdToken(token);
-    req.user = decodedToken;
-    next();
-  } catch (error) {
-    res.status(403).json({ message: "Invalid or expired token" });
-  }
-};
 
 // Protected route
 app.get("/protected", verifyToken, (req, res) => {
