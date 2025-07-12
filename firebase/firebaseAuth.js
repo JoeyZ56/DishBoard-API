@@ -12,7 +12,7 @@ const verifyToken = async (req, res, next) => {
 
   try {
     const decodedToken = await adminAuth.verifyIdToken(token);
-    req.user = decodedToken; // Attach user info to request
+    req.user = { uid: decodedToken.uid };
     next(); // Continue to the next middleware or route handler
   } catch (error) {
     console.error("Failed to process token:", error.message);
