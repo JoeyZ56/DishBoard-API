@@ -58,9 +58,11 @@ const getUserByUid = async (req, res) => {
 
 //Update User
 const updateUser = async (req, res) => {
-  console.log("Authorization Header:", req.headers.authorization);
+  // console.log("Authorization Header:", req.headers.authorization);
 
   const { uid } = req.user;
+  console.log("Incoming bio:", req.body.bio);
+  console.log("Current user data:", await User.findOne({ uid }));
   const updateData = req.body;
   try {
     //If a file was updated, convert it to a base64 and set profilePicture
@@ -90,12 +92,8 @@ const updateUser = async (req, res) => {
   }
 };
 
-//Update Username
+//Update Username for google sign ups
 const updateUsername = async (req, res) => {
-  // console.log("[updateUsername] Endpoint hit √");
-  // console.log("params:", req.params);
-  // console.log("body:", req.body);
-
   const { uid } = req.params;
   const { username } = req.body;
 
