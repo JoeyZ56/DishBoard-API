@@ -38,7 +38,7 @@ const recipeSchema = new mongoose.Schema(
       {
         name: { type: String, required: true }, // Ingredient name
         quantity: { type: String, required: true }, // Amount
-        unit: { type: String, required: true }, // unit (cup, tbps, tsp, grams, etc)
+        unit: String, // unit (cup, tbps, tsp, grams, etc)
       },
     ],
 
