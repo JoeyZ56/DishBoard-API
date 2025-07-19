@@ -214,13 +214,14 @@ const updateRecipe = async (req, res) => {
       update.tags = JSON.parse(update.tags);
     }
 
-    if (update.createdBy) {
-      update.createdBy = new mongoose.Types.ObjectId(update.createdBy);
-    }
-
     //Handle image if sent
     if (req.file) {
       update.image = req.file.buffer.toString("base64");
+    }
+
+    //Removed the createdBy from the update process, leaving the existing one untouched
+    if ("createdBy" in update) {
+      delete update.createdBy;
     }
 
     const updateRecipe = await Recipe.findByIdAndUpdate(id, update, {
