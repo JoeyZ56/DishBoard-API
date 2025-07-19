@@ -1,5 +1,6 @@
 const Recipe = require("../models/recipe");
 const User = require("../models/user");
+const mongoose = require("mongoose");
 
 const createRecipe = async (req, res) => {
   try {
@@ -211,6 +212,10 @@ const updateRecipe = async (req, res) => {
 
     if (update.tags) {
       update.tags = JSON.parse(update.tags);
+    }
+
+    if (update.createdBy) {
+      update.createdBy = new mongoose.Types.ObjectId(update.createdBy);
     }
 
     //Handle image if sent
