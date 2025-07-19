@@ -198,7 +198,25 @@ const getRecipeById = async (req, res) => {
 const updateRecipe = async (req, res) => {
   try {
     const { id } = req.params;
-    const update = req.body;
+    const update = { ...req.body };
+
+    //Parse arrays that were sent as JSON strings
+    if (update.ingredientsList) {
+      update.ingredientsList = JSON.parse(update.ingredientsList);
+    }
+
+    if (update.instructions) {
+      update.instructions = JSON.parse(update.instructions);
+    }
+
+    if (update.tags) {
+      update.tags = JSON.parse(update.tags);
+    }
+
+    //Handle image if sent
+    if (req.file) {
+      update.image = req.file.buffer.toString("base64");
+    }
 
     const updateRecipe = await Recipe.findByIdAndUpdate(id, update, {
       new: true,
