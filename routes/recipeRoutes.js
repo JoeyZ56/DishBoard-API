@@ -31,6 +31,6 @@ router.get("/tags/:tags", getRecipeByTags);
 
 router.get("/:id", getRecipeById);
 
-router.put("update/:id", upload.single("image"), updateRecipe);
+router.put("/update/:id", upload.single("image"), updateRecipe);
 
 module.exports = router;
