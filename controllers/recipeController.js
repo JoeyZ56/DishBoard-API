@@ -1,6 +1,5 @@
 const Recipe = require("../models/recipe");
 const User = require("../models/user");
-const mongoose = require("mongoose");
 
 const createRecipe = async (req, res) => {
   try {
@@ -240,6 +239,22 @@ const updateRecipe = async (req, res) => {
   }
 };
 
+const deleteRecipe = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const recipe = await Recipe.findByIdAndDelete(id);
+
+    if (!recipe) {
+      res.status(404).json({ message: "Recipe not found" });
+    }
+    res.status(200).json({ message: "Recipe deleted successfully", recipe });
+  } catch (error) {
+    console.error("Error deleting recipe:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 // search recipes by name
 module.exports = {
   createRecipe,
@@ -251,4 +266,5 @@ module.exports = {
   getRecipeByTags,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };

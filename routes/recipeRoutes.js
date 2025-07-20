@@ -9,8 +9,10 @@ const {
   getRecipeByDifficultyLevel,
   getRecipeByTags,
   updateRecipe,
+  deleteRecipe,
 } = require("../controllers/recipeController");
 const upload = require("../middlewares/multer");
+const verifyToken = require("../firebase/firebaseAuth");
 
 const router = express.Router();
 
@@ -32,5 +34,6 @@ router.get("/tags/:tags", getRecipeByTags);
 router.get("/:id", getRecipeById);
 
 router.put("/update/:id", upload.single("image"), updateRecipe);
+router.delete("/:id", verifyToken, deleteRecipe);
 
 module.exports = router;
