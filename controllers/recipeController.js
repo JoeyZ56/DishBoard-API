@@ -97,7 +97,9 @@ const getUserRecipes = async (req, res) => {
 const getRecipesByCourseType = async (req, res) => {
   try {
     const { courseType } = req.params;
-    const recipes = await Recipe.find({ courseType });
+    const recipes = await Recipe.find({ courseType })
+      .populate("createdBy", "username")
+      .exec();
 
     // Check if recipes are found
     if (!recipes || recipes.length === 0) {
@@ -119,7 +121,9 @@ const getRecipesByCourseType = async (req, res) => {
 const getRecipesByCuisineType = async (req, res) => {
   try {
     const { cuisineType } = req.params;
-    const recipes = await Recipe.find({ cuisineType });
+    const recipes = await Recipe.find({ cuisineType })
+      .populate("createdBy", "username")
+      .exec();
 
     // Check if recipes are found
     if (!recipes || recipes.length === 0) {
@@ -140,7 +144,9 @@ const getRecipesByCuisineType = async (req, res) => {
 const getRecipeByDifficultyLevel = async (req, res) => {
   try {
     const { difficultyLevel } = req.params;
-    const recipes = await Recipe.find({ difficultyLevel }); ////query matches the schema "difficultyLevel"
+    const recipes = await Recipe.find({ difficultyLevel })
+      .populate("createdBy", "username")
+      .exec(); ////query matches the schema "difficultyLevel"
 
     if (!recipes || recipes.length === 0) {
       return res
@@ -160,7 +166,9 @@ const getRecipeByDifficultyLevel = async (req, res) => {
 const getRecipeByTags = async (req, res) => {
   try {
     const { tags } = req.params;
-    const recipes = await Recipe.find({ tags: tags }); //query matches the schema "tags"
+    const recipes = await Recipe.find({ tags: tags })
+      .populate("createdBy", "username")
+      .exec(); //query matches the schema "tags"
 
     if (!recipes || recipes.length === 0) {
       return res
