@@ -8,6 +8,7 @@ const verifyToken = require("../firebase/firebaseAuth");
 const {
   updateUsername,
   getUserByUid,
+  getPublicUserById,
   updateUser,
 } = require("../controllers/userController");
 const User = require("../models/user");
@@ -126,7 +127,7 @@ router.post("/google-login", async (req, res) => {
 //GET user by id (private)
 router.get("/:uid", getUserByUid);
 //GET users by id (public)
-router.get("/public/:uid", getUserByUid);
+router.get("/public/:uid", getPublicUserById);
 //Update Username
 router.put("/:uid", updateUsername);
 //Update User
