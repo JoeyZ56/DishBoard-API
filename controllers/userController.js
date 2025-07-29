@@ -1,5 +1,7 @@
 const User = require("../models/user");
+/*---------- CREATE ----------*/
 
+//Create a user
 const createUser = async (req, res) => {
   const { uid, username, email } = req.body;
 
@@ -36,7 +38,9 @@ const createUser = async (req, res) => {
   }
 };
 
-//Get User by uid
+/*---------- READ ---------- */
+
+//Get User by uid (Private)
 const getUserByUid = async (req, res) => {
   const { uid } = req.params;
 
@@ -55,6 +59,31 @@ const getUserByUid = async (req, res) => {
     });
   }
 };
+
+//GET User By id (Public)
+const getPublicUserById = async (req, res) => {
+  const { uid } = req.params;
+
+  try {
+    const user = await User.findOne(
+      { uid },
+      "username bio profilePicture" //Only public fields
+    );
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({ user });
+  } catch (error) {
+    res,
+      status(500).json({
+        message: "Failed to find user",
+        error: error.message,
+        stack: error.stack,
+      });
+  }
+};
+
+/*---------- UPDATE ---------- */
 
 //Update User
 const updateUser = async (req, res) => {
@@ -119,6 +148,8 @@ const updateUsername = async (req, res) => {
   }
 };
 
+/*---------- DELETE ---------- */
+
 //Delete User
 const deleteUser = async (req, res) => {
   const { uid } = req.user;
@@ -143,6 +174,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
   createUser,
   getUserByUid,
+  getPublicUserById,
   updateUser,
   updateUsername,
   deleteUser,

@@ -123,8 +123,10 @@ router.post("/google-login", async (req, res) => {
   }
 });
 
-//get user by id
+//GET user by id (private)
 router.get("/:uid", getUserByUid);
+//GET users by id (public)
+router.get("/public/:uid", getUserByUid);
 //Update Username
 router.put("/:uid", updateUsername);
 //Update User
